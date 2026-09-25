@@ -27,6 +27,10 @@ import { ScoreBreakdown } from './components/ScoreBreakdown';
 import { AdminModal } from './components/AdminModal';
 import { EditTaskNamesModal } from './components/EditTaskNamesModal';
 
+// ลิงก์ Google Sheets CSV ที่คุณตั้งค่าไว้
+const GOOGLE_SHEET_BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJncJTEUS8B3LlacupHm_0HUlEXfGxpFtVnwB916mrbAltaeTWziaY1wRnr3Ak61q-tB8hAZ6im01g/pub?gid=1127811083&single=true&output=csv';
+const GOOGLE_SHEET_EXTRA_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQrgHx2p-VgZa5JA7WPSyMeBGxInS_xNgMEg0gQ73OWxgu7Qgh6fv27GZe5EKVwHy2cahBltHyY1qcl/pub?gid=1789610618&single=true&output=csv';
+
 export default function App() {
   // Persistence state
   const [baseCSV, setBaseCSV] = useState<string>(() => {
@@ -36,6 +40,31 @@ export default function App() {
   const [extraCSV, setExtraCSV] = useState<string>(() => {
     return localStorage.getItem('csv_data_extra') || DEFAULT_EXTRA_CSV;
   });
+
+  // ดึงข้อมูลจาก Google Sheets อัตโนมัติเมื่อเปิดเว็บ
+  useEffect(() => {
+    // โหลดวิชาพื้นฐาน
+    fetch(GOOGLE_SHEET_BASE_URL)
+      .then(res => res.text())
+      .then(text => {
+        if (text && text.length > 50) { // ตรวจสอบว่าได้ข้อมูล CSV กลับมาจริง
+          setBaseCSV(text);
+          localStorage.setItem('csv_data_base', text);
+        }
+      })
+      .catch(err => console.error("Failed to fetch base CSV from Google Sheets", err));
+
+    // โหลดวิชาเพิ่มเติม
+    fetch(GOOGLE_SHEET_EXTRA_URL)
+      .then(res => res.text())
+      .then(text => {
+        if (text && text.length > 50) {
+          setExtraCSV(text);
+          localStorage.setItem('csv_data_extra', text);
+        }
+      })
+      .catch(err => console.error("Failed to fetch extra CSV from Google Sheets", err));
+  }, []);
 
   const [customBaseHeaders, setCustomBaseHeaders] = useState<Record<number, string>>(() => {
     const saved = localStorage.getItem('custom_headers_base');
@@ -407,7 +436,7 @@ export default function App() {
   ) => {
     const targetCSV = subject === 'base' ? baseCSV : extraCSV;
     const parsed = parseCSV(targetCSV);
-    
+     
     // Find row index by studentId
     const updatedRows = parsed.rows.map((row) => {
       if (row[0] === studentId) {
@@ -436,7 +465,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50/90 text-slate-800 flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
-      
+       
       {/* Top Navbar */}
       <Navbar
         schoolInfo={schoolInfo}
@@ -447,7 +476,7 @@ export default function App() {
 
       {/* Main Container */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-9 space-y-6 sm:space-y-8">
-        
+         
         {/* Search Bar Section */}
         <SearchSection
           students={baseData.students}
