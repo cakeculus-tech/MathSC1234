@@ -1,11 +1,11 @@
 import { TaskDefinitions } from '../types';
 
 export const DEFAULT_SCHOOL_INFO = {
-  schoolName: "โรงเรียนมัธยมศึกษาพัฒนาการศึกษา",
+  schoolName: "โรงเรียนชลราษฎรอำรุง",
   department: "กลุ่มสาระการเรียนรู้คณิตศาสตร์",
-  academicYear: "2567",
+  academicYear: "2569",
   semester: "1",
-  className: "มัธยมศึกษาปีที่ 1/6 (ม.1/6)",
+  className: "มัธยมศึกษาปีที่ 1/6,9,11",
   teacherName: "ครูเค้ก (Kru Cake)",
   teacherEmail: "krucakeculus@gmail.com",
 };
