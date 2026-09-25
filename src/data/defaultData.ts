@@ -11,13 +11,13 @@ export const DEFAULT_SCHOOL_INFO = {
 };
 
 export const DEFAULT_BASE_TASKS: TaskDefinitions = {
-  task1: "งานชิ้นที่ 1: สมุดแบบฝึกหัด",
-  task2: "งานชิ้นที่ 2: ใบงานระบบจำนวนเต็ม",
+  task1: "MATH DAY",
+  task2: "ใบงาน AI",
 };
 
 export const DEFAULT_EXTRA_TASKS: TaskDefinitions = {
-  task1: "งานชิ้นที่ 1: แบบฝึกหัดคณิตศาสตร์เพิ่มเติม",
-  task2: "งานชิ้นที่ 2: ชิ้นงานประยุกต์ความรู้",
+  task1: "-",
+  task2: "-",
 };
 
 
